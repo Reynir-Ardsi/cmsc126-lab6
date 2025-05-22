@@ -68,78 +68,68 @@ function add_student() {
     let email = document.getElementById("email").value.trim();
     let course = document.getElementById("course").value;
 
-    let errors = [];
-
-    if (!name) errors.push("Please fill out the Name field.");
-    if (!age) errors.push("Please fill out the Age field.");
-    if (!email) errors.push("Please fill out the Email field.");
-
-    if (errors.length > 0) {
-        alert(errors.join("\n"));
-        return;
-    }
-
     let validationErrors = validateInput(name, parseInt(age), email);
     if (validationErrors.length > 0) {
         alert(validationErrors.join("\n"));
         return;
     }
 
-    let student = {
-        studentNumber: generateStudentNumber(),
-        name: name,
-        age: parseInt(age),
-        email: email,
-        course: course
-    };
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("age", age);
+    formData.append("email", email);
+    formData.append("course", course);
 
-    students.push(student);
-
-    let message = `The following student has been added:\n\n` +
-                    `Student Number: ${student.studentNumber}\n` +
-                    `Name: ${student.name}\n` +
-                    `Age: ${student.age}\n` +
-                    `Email: ${student.email}\n` +
-                    `Course: ${student.course}`;
-
-    alert(message);
-
-    document.getElementById("student_form").reset();
+    fetch("lab6.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        alert(result);
+        document.getElementById("student_form").reset();
+    })
+    .catch(error => {
+        alert("Error: " + error);
+    });
 }
 
 function display_list() {
-    let studentList = document.getElementById("student_list");
-    
-    if (students.length === 0) {
-        studentList.innerHTML = "<p>No students registered.</p>";
-        return;
-    }
+    fetch("lab4c_backend.php")
+        .then(response => response.json())
+        .then(data => {
+            let studentList = document.getElementById("student_list");
 
-    let tableHTML = `
-        <table>
-            <tr>
-                <th>Student Number</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>UP Mail </th>
-                <th>Course</th>
-            </tr>
-    `;
+            if (data.length === 0) {
+                studentList.innerHTML = "<p>No students registered.</p>";
+                return;
+            }
 
-    students.forEach(student => {
-        tableHTML += `
-            <tr>
-                <td>${student.studentNumber}</td>
-                <td>${student.name}</td>
-                <td>${student.age}</td>
-                <td>${student.email}</td>
-                <td>${student.course}</td>
-            </tr>
-        `;
-    });
+            let tableHTML = `
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>UP Mail</th>
+                        <th>Course</th>
+                    </tr>`;
 
-    tableHTML += `</table>`;
-    studentList.innerHTML = tableHTML;
+            data.forEach(student => {
+                tableHTML += `
+                    <tr>
+                        <td>${student["Full Name"]}</td>
+                        <td>${student.Age}</td>
+                        <td>${student["UP-Mail"]}</td>
+                        <td>${student.Course}</td>
+                    </tr>`;
+            });
+
+            tableHTML += `</table>`;
+            studentList.innerHTML = tableHTML;
+        })
+        .catch(error => {
+            alert("Failed to load students: " + error);
+        });
 }
 
 
