@@ -1,92 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 6</title>
-    <script defer src="lab6_scripts.js"></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        input, select, button {
-            margin: 10px;
-        }
-        .student-info {
-            max-width: 400px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-        }
-        .info-row strong {
-            text-align: center;
-            flex: 1;
-            font-weight: bold;
-        }
-        .info-row span {
-            flex: 2;
-            text-align: left;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 8px 12px;
-            text-align: left;
-        }
-        th {
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <button onclick="time_now()">Show Current Date</button>
-    <p id="date_display"></p>
-    
-    <h2>Student Registration</h2>
-    <form id="student_form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required><br>
-        
-        <label for="age">Age:</label>
-        <input type="number" id="age" required><br>
-        
-        <label for="email">UP Mail:</label>
-        <input type="email" id="email" required><br>
-        
-        <label for="course">Course:</label>
-        <select id="course">
-            <option value="BA Food Appreciation">BA Food Appreciation</option>
-            <option value="BA Applied Poetry of the Future">BA Applied Poetry of the Future</option>
-            <option value="BS Computer Repair Shop">BS Computer Repair Shop</option>
-            <option value="BS Video Gaming">BS Video Gaming</option>
-            <option value="BS Installing and Downloading">BS Installing and Downloading</option>
-        </select><br>
-        
-        <button type="button" onclick="add_student()">Submit</button>
-    </form>
-    
-    <h2>Search Student</h2>
-    <input type="text" id="search_id" placeholder="Enter Student ID">
-    <button onclick="find_student()">Search Student</button>
-    <p id="search_result"></p>
-    
-    <h2>All Students</h2>
-    <button onclick="display_list()">Display All</button>
-    <ul id="student_list"></ul>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Guild Registration</title>
+        <script defer src="lab6_scripts.js"></script>
+    </head>
+    <body>
+        <h2>Guild Registration Form</h2>
+        <form id="guild_form">
+            <label>Name: <input type="text" id="name" required></label><br>
+            <label>Level: <input type="number" id="level" min="1" required></label><br>
+            <label>Class: <input type="text" id="class" required></label><br>
+            <label>Guild Affiliation: <input type="text" id="guild" required></label><br>
+            <button type="button" onclick="registerAdventurer()">Register</button>
+        </form>
+        <h3>All Registered Adventurers</h3>
+        <button onclick="fetchAdventurers()">Display All</button>
+        <div id="adventurer_list"></div>
+    </body>
 </html>
