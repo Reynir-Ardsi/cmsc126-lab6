@@ -95,7 +95,7 @@ function add_student() {
 }
 
 function display_list() {
-    fetch("lab4c_backend.php")
+    fetch("lab6.php")
         .then(response => response.json())
         .then(data => {
             let studentList = document.getElementById("student_list");
