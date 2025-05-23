@@ -1,5 +1,5 @@
 function generateAdventurerID() {
-  return Math.floor(100000 + Math.random() * 900000); // 6-digit
+    return Math.floor(100000 + Math.random() * 900000); // 6-digit
 }
 
 function registerAdventurer() {
@@ -30,34 +30,47 @@ function registerAdventurer() {
     .then(msg => {
         alert(msg);
         document.getElementById("guild_form").reset();
+
+        // Redirect to adventurer list
+        document.getElementById("register_form").style.display = "none";
+        document.getElementById("view_adventurers").style.display = "block";
+
+        // Load updated adventurer list
+        fetchAdventurers();
     })
     .catch(err => alert("Error: " + err));
-    }
+}
 
 function fetchAdventurers() {
     fetch("lab6.php")
     .then(res => res.json())
     .then(data => {
-    const container = document.getElementById("adventurer_list");
-    if (data.length === 0) {
-        container.innerHTML = "<p>No adventurers found.</p>";
-        return;
-    }
+        const container = document.getElementById("adventurer_list");
+        if (data.length === 0) {
+            container.innerHTML = "<p>No adventurers found.</p>";
+            return;
+        }
 
-    let html = `<table border="1px">
-        <tr><th>ID</th><th>Name</th><th>Level</th><th>Class</th><th>Species</th><th>Guild</th></tr>`;
-    data.forEach(a => {
-        html += `<tr>
-            <td>${a.Adventurer_ID}</td>
-            <td>${a.Name}</td>
-            <td>${a.Level}</td>
-            <td>${a.Class}</td>
-            <td>${a.Species}</td>
-            <td>${a.Guild_Affiliation}</td>
-        </tr>`;
+        let html = `<table border="1px">
+            <tr><th>ID</th><th>Name</th><th>Level</th><th>Class</th><th>Species</th><th>Guild</th></tr>`;
+        data.forEach(a => {
+            html += `<tr>
+                <td>${a.Adventurer_ID}</td>
+                <td>${a.Name}</td>
+                <td>${a.Level}</td>
+                <td>${a.Class}</td>
+                <td>${a.Species}</td>
+                <td>${a.Guild_Affiliation}</td>
+            </tr>`;
         });
         html += "</table>";
         container.innerHTML = html;
     })
     .catch(err => alert("Failed to fetch adventurers: " + err));
+}
+
+function goToLanding() {
+    document.getElementById("landing").style.display = "block";
+    document.getElementById("register_form").style.display = "none";
+    document.getElementById("view_adventurers").style.display = "none";
 }
