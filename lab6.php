@@ -15,10 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST["Name"];
     $level = $_POST["Level"];
     $class = $_POST["Class"];
+    $species = $_POST["Species"];
     $guild = $_POST["Guild_Affiliation"];
 
-    $stmt = $conn->prepare("INSERT INTO adventurerinfo (Adventurer_ID, Name, Level, Class, Guild_Affiliation) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("isiss", $id, $name, $level, $class, $guild);
+    $stmt = $conn->prepare("INSERT INTO adventurerinfo (Adventurer_ID, Name, Level, Class, Species, Guild_Affiliation) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isisss", $id, $name, $level, $class, $species, $guild);
 
     if ($stmt->execute()) {
         echo "Adventurer registered! ID: $id";
